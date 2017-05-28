@@ -2,23 +2,32 @@
 
 console.clear();
 
-/* ===== Configuration ======== */
-var API_KEY = null; // API KEY HERE!
 /* ============= Global Variables ============= */
-//var state = "watching";
+var state = null;
 var player = null;
-var slider = null;
-var videoDuration = null;
-var searchResults = {};
-var isSearching = false;
+var slider = document.getElementById("seek");
+var videoDuration = null; //total video length seconds
 var userActive = false;
 var userActiveTimer = null;
 var sliderInUse = false;
 
 //config values
-var VOLUME = 100; //percent
+var VOLUME = 0; //percent
 var INTERVAL_USER_ACTIVE = 1500;
 var INTERVAL_SLIDER = 50; // in ms
+
+//passeed through values (E.g. get parameters from url
+// www.mysite.com/my_app.html?Use_Id=abc
+var GET = {};
+var query = window.location.search.substring(1).split("&");
+for (var i = 0, max = query.length; i < max; i++)
+{
+  if (query[i] === "") // check for trailing & with no param
+    continue;
+
+  var param = query[i].split("=");
+  GET[decodeURIComponent(param[0])] = decodeURIComponent(param[1] || "");
+}
 
 /*========FUNCTIONS==========*/
 
@@ -39,7 +48,7 @@ function loadVideo(videoId) {
       disablekb: 1, //prevent keyboard controls e.g. space to pause
       modestbranding: 1, //not 100% sure
       showinfo: 0,
-      rel: 0,
+      rel: 0
     },
     events: {
       'onReady': onPlayerReady,
@@ -47,17 +56,21 @@ function loadVideo(videoId) {
     }
   });
 
-  slider = document.getElementById("slider");
-  // slider.setAttribute(
-  // 	"max",
-  // 	parseDuration(response.items[0].contentDetails.duration)
-  // );
-  // slider.value = 0;
+  slider.value = 0;
 }
 
 function onPlayerReady(event) {
   event.target.playVideo();
-  console.log(player.getDuration());
+
+  player.setVolume(VOLUME);
+
+  videoDuration = player.getDuration();
+  slider.setAttribute(
+    "max",
+    videoDuration
+  );
+
+
 }
 
 function onPlayerStateChange(event){
@@ -67,7 +80,7 @@ function onPlayerStateChange(event){
    1 – playing
    2 – paused
    */
-  // console.log(event.data);
+  state = event.data;
 }
 
 function slider_onChange(slider) {
@@ -85,10 +98,9 @@ function slider_onMouseup() {
 function updateSlider() {
   if (sliderInUse) return;
 
-  // console.clear();
-  // console.log(player.getCurrentTime());
-  // slider.MaterialSlider.change(player.getCurrentTime());
-  // slider.value = player.getCurrentTime();
+  if (state != YT.PlayerState.PLAYING) return;
+
+  slider.value = player.getCurrentTime();
 }
 
 function hideToolboxCountdown() {
@@ -115,15 +127,15 @@ function hideToolbox(){
 
 /*=======Events========*/
 
-//loops
-setInterval(updateSlider, INTERVAL_SLIDER);
-
 //api calls this once loaded
 function onYouTubeIframeAPIReady() {
   loadVideo("WUgvvPRH7Oc");
+
+  //loop for slider position
+  setInterval(updateSlider, INTERVAL_SLIDER);
 }
 
-function handleMouseMove(e) {
+function handleMouseMove() {
   showToolbox();
   hideToolboxCountdown();
   userActive = true;
