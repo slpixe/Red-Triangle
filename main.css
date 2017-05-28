@@ -1,0 +1,74 @@
+:root {
+    --black: #000000;
+    --gray: #333333;
+    --pink: #FF358B;
+    --blue: #01B0F0;
+    --green: #AEEE00;
+}
+
+iframe {
+    display: block;
+    width: 100%;
+    height: 100vh;
+    border: none;
+    pointer-events: none;
+}
+
+.tools {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding-left: 20px;
+    padding-right: 20px;
+    box-sizing: border-box;
+    height: 60px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    background-color: var(--blue);
+    transition: transform 0.5s;
+    /* hide off screen */
+    transform: translate(0, 100%);
+}
+
+.tools.show {
+    transform: translate(0, 0);
+    /* hide off screen */
+}
+
+.tools button {
+    background: none;
+    border: none;
+}
+
+.pause, .search {
+    color: var(--pink);
+    font-size: 20px;
+}
+
+
+
+
+input[type=range] {
+    -webkit-appearance: none;
+    width: 600px;
+    background: none;
+}
+input[type=range]::-webkit-slider-runnable-track {
+    height: 10px;
+    background: rgb(255,255,255);
+    border: none;
+    border-radius: 5px;
+}
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    border: none;
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    background: var(--pink);
+    margin-top: -20px;
+}
+input[type=range]:focus {
+    outline: none;
+}

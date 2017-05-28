@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>RedTriangle</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+
+<div class="app">
+
+    <div id="player"></div>
+
+    <div class="tools">
+        <button class="pause">
+            <i class="fa fa-pause" aria-hidden="true"></i>
+        </button>
+
+        <input id="seek" class="seek" type="range" min="0" max="100" value="0" tabindex="0" onchange="slider_onChange(this)" onmouseup="slider_onMouseup(this)" onmousedown="slider_onMousedown(this)">
+        <button class="search">
+            <i class="fa fa-search" aria-hidden="true"></i>
+        </button>
+
+    </div>
+
+</div>
+
+<script async src="https://use.fontawesome.com/44cede83de.js"></script>
+<script type="text/javascript" src="https://www.youtube.com/iframe_api" async></script>
+<script src="main.js" defer></script>
+
+</body>
+</html>
