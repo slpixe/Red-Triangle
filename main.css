@@ -6,6 +6,11 @@
     --green: #AEEE00;
 }
 
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
 iframe {
     display: block;
     width: 100%;
@@ -41,11 +46,20 @@ iframe {
     border: none;
 }
 
-.pause, .search {
+#playingStatus, .search {
     color: var(--pink);
     font-size: 20px;
 }
 
+#playingStatus > * {
+    display: none;
+}
+#playingStatus.pause .fa-pause {
+    display: block;
+}
+#playingStatus.play .fa-play {
+    display: block;
+}
 
 
 
