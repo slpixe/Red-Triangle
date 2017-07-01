@@ -6,6 +6,7 @@ console.clear();
 var state = null;
 var player = null;
 var slider = document.getElementById("seek");
+var elPlayingStatus = document.getElementById("playingStatus");
 var videoDuration = null; //total video length seconds
 var userActive = false;
 var userActiveTimer = null;
@@ -13,15 +14,14 @@ var sliderInUse = false;
 
 //config values
 var VOLUME = 0; //percent
-var INTERVAL_USER_ACTIVE = 1500;
+var INTERVAL_USER_ACTIVE = 3000;
 var INTERVAL_SLIDER = 50; // in ms
 
 //passeed through values (E.g. get parameters from url
 // www.mysite.com/my_app.html?Use_Id=abc
 var GET = {};
 var query = window.location.search.substring(1).split("&");
-for (var i = 0, max = query.length; i < max; i++)
-{
+for (var i = 0, max = query.length; i < max; i++) {
   if (query[i] === "") // check for trailing & with no param
     continue;
 
@@ -31,11 +31,20 @@ for (var i = 0, max = query.length; i < max; i++)
 
 /*========FUNCTIONS==========*/
 
-function stopVideo() {
+function stopVideo () {
   player.stopVideo();
 }
 
-function loadVideo(videoId) {
+function togglePause () {
+  if(state == YT.PlayerState.PLAYING) {
+    player.pauseVideo();
+    // elPause
+  } else {
+    player.playVideo();
+  }
+}
+
+function loadVideo (videoId) {
   if (player) {
     player.destroy();
   }
@@ -59,7 +68,7 @@ function loadVideo(videoId) {
   slider.value = 0;
 }
 
-function onPlayerReady(event) {
+function onPlayerReady (event) {
   event.target.playVideo();
 
   player.setVolume(VOLUME);
@@ -70,10 +79,9 @@ function onPlayerReady(event) {
     videoDuration
   );
 
-
 }
 
-function onPlayerStateChange(event){
+function onPlayerStateChange (event) {
   /*
    -1 – unstarted
    0 – ended
@@ -81,21 +89,43 @@ function onPlayerStateChange(event){
    2 – paused
    */
   state = event.data;
+
+  switch (state) {
+    case YT.PlayerState.PLAYING:
+      elPlayingStatus.className = "";
+      elPlayingStatus.classList.add('pause');
+      break;
+    case YT.PlayerState.ENDED:
+      elPlayingStatus.className = "";
+      elPlayingStatus.classList.add('play');
+      break;
+    case YT.PlayerState.PAUSED:
+      elPlayingStatus.className = "";
+      elPlayingStatus.classList.add('play');
+      break;
+  }
+
+  // if(state == YT.PlayerState.PLAYING) {
+  //   elPlayingStatus.classList.add('pause');
+  // } else if{
+  //   elPlayingStatus.className = "";
+  // }
+
 }
 
-function slider_onChange(slider) {
+function slider_onChange (slider) {
   player.seekTo(slider.value, true);
 }
 
-function slider_onMousedown() {
+function slider_onMousedown () {
   sliderInUse = true;
 }
 
-function slider_onMouseup() {
+function slider_onMouseup () {
   sliderInUse = false;
 }
 
-function updateSlider() {
+function updateSlider () {
   if (sliderInUse) return;
 
   if (state != YT.PlayerState.PLAYING) return;
@@ -103,42 +133,44 @@ function updateSlider() {
   slider.value = player.getCurrentTime();
 }
 
-function hideToolboxCountdown() {
+function hideToolboxCountdown () {
   clearTimeout(userActiveTimer);
   userActiveTimer = setTimeout(userInactive, INTERVAL_USER_ACTIVE);
   // 1000 milisec = 1 sec
 }
 
-function userInactive(){
+function userInactive () {
   console.log('userInactive');
   hideToolbox();
   userActive = false;
 }
 
-function showToolbox(){
-  if(!userActive){
+function showToolbox () {
+  if (!userActive) {
     document.querySelector('.tools').classList.add('show');
   }
 }
 
-function hideToolbox(){
+function hideToolbox () {
   document.querySelector('.tools').classList.remove('show');
 }
 
 /*=======Events========*/
 
 //api calls this once loaded
-function onYouTubeIframeAPIReady() {
+function onYouTubeIframeAPIReady () {
   loadVideo("WUgvvPRH7Oc");
 
   //loop for slider position
   setInterval(updateSlider, INTERVAL_SLIDER);
 }
 
-function handleMouseMove() {
+function handleMouseMove () {
   showToolbox();
   hideToolboxCountdown();
   userActive = true;
 }
 
 document.onmousemove = handleMouseMove;
+
+elPlayingStatus.addEventListener('click', togglePause);
