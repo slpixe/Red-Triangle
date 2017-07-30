@@ -17,7 +17,7 @@ var DEBUG = true;
 var VOLUME = 0; //percent
 var INTERVAL_USER_ACTIVE = 3000;
 var INTERVAL_SLIDER = 50; // in ms
-var DEBUG_TIMER = 1000;
+var DEBUG_TIMER = 5000;
 
 //passeed through values (E.g. get parameters from url
 // www.mysite.com/my_app.html?Use_Id=abc
@@ -132,7 +132,7 @@ function updateSlider () {
 
   if (state != YT.PlayerState.PLAYING) return;
 
-  slider.value = player.getCurrentTime();
+  slider.value = Math.ceil(player.getCurrentTime());
 }
 
 function hideToolboxCountdown () {
