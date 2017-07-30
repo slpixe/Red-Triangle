@@ -11,11 +11,13 @@ var videoDuration = null; //total video length seconds
 var userActive = false;
 var userActiveTimer = null;
 var sliderInUse = false;
+var DEBUG = true;
 
 //config values
 var VOLUME = 0; //percent
 var INTERVAL_USER_ACTIVE = 3000;
 var INTERVAL_SLIDER = 50; // in ms
+var DEBUG_TIMER = 1000;
 
 //passeed through values (E.g. get parameters from url
 // www.mysite.com/my_app.html?Use_Id=abc
@@ -155,7 +157,24 @@ function hideToolbox () {
   document.querySelector('.tools').classList.remove('show');
 }
 
+function debugInfo () {
+  console.clear();
+  console.log("DEBUG_TIMER: " + DEBUG_TIMER);
+  console.log("state: " + state);
+  console.log("videoDuration: " + videoDuration);
+  console.log("userActive: " + userActive);
+  console.log("userActiveTimer: " + userActiveTimer);
+  console.log("sliderInUse: " + sliderInUse);
+  console.log("VOLUME: " + VOLUME);
+  console.log("INTERVAL_USER_ACTIVE: " + INTERVAL_USER_ACTIVE);
+  console.log("INTERVAL_SLIDER: " + INTERVAL_SLIDER);
+}
+
 /*=======Events========*/
+
+if(DEBUG){
+  setInterval(debugInfo, DEBUG_TIMER);
+}
 
 //api calls this once loaded
 function onYouTubeIframeAPIReady () {
