@@ -20,6 +20,7 @@ iframe {
 }
 
 .tools {
+    display: flex;
     position: absolute;
     bottom: 0;
     left: 0;
@@ -46,6 +47,10 @@ iframe {
     border: none;
 }
 
+.seek {
+    flex-grow: 1;
+}
+
 #playingStatus, .search {
     color: var(--pink);
     font-size: 20px;
@@ -65,7 +70,6 @@ iframe {
 
 input[type=range] {
     -webkit-appearance: none;
-    width: 600px;
     background: none;
 }
 input[type=range]::-webkit-slider-runnable-track {
