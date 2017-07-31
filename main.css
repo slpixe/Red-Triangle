@@ -51,6 +51,22 @@ iframe {
     flex-grow: 1;
 }
 
+.search-pane {
+    /* when slid out, occupy 90% of the right */
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 10%;
+    /* start 100% off the right side of screen */
+    transform: translate(100%, 0);
+    transition: transform 1.0s;
+    background-color: rgba(255, 255, 255, 1);
+}
+.search-pane.show {
+    transform: translate(0, 0);
+}
+
 #playingStatus, .search {
     color: var(--pink);
     font-size: 20px;

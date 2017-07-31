@@ -144,6 +144,7 @@ function hideToolboxCountdown () {
 function userInactive () {
   console.log('userInactive');
   hideToolbox();
+  hideSearch();
   userActive = false;
 }
 
@@ -155,6 +156,16 @@ function showToolbox () {
 
 function hideToolbox () {
   document.querySelector('.tools').classList.remove('show');
+}
+
+function showSearch () {
+  console.log('showing search');
+  document.querySelector('.search-pane').classList.add('show');
+}
+
+function hideSearch () {
+  console.log('hiding search');
+  document.querySelector('.search-pane').classList.remove('show');
 }
 
 function debugInfo () {
