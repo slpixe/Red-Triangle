@@ -7,6 +7,7 @@ var state = null;
 var player = null;
 var slider = document.getElementById("seek");
 var elPlayingStatus = document.getElementById("playingStatus");
+var elOpenSearch = document.querySelector('.search');
 var videoDuration = null; //total video length seconds
 var userActive = false;
 var userActiveTimer = null;
@@ -204,3 +205,4 @@ function handleMouseMove () {
 document.onmousemove = handleMouseMove;
 
 elPlayingStatus.addEventListener('click', togglePause);
+elOpenSearch.addEventListener('click', showSearch);

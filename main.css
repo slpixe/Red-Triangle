@@ -60,7 +60,7 @@ iframe {
     left: 10%;
     /* start 100% off the right side of screen */
     transform: translate(100%, 0);
-    transition: transform 1.0s;
+    transition: transform 0.5s;
     background-color: rgba(255, 255, 255, 1);
 }
 .search-pane.show {
