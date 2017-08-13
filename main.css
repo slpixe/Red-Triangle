@@ -19,6 +19,11 @@ iframe {
     pointer-events: none;
 }
 
+.button-reset {
+    border: none;
+    background: none;
+}
+
 .tools {
     display: flex;
     position: absolute;
@@ -58,13 +63,41 @@ iframe {
     bottom: 0;
     right: 0;
     left: 10%;
-    /* start 100% off the right side of screen */
-    transform: translate(100%, 0);
     transition: transform 0.5s;
-    background-color: rgba(255, 255, 255, 1);
+    /*background-color: rgba(255, 255, 255, 1);*/
+    background: linear-gradient(to right, rgba(255,48,25,0) 0%,rgba(250,44,23,1) 50%,rgba(207,4,4,1) 100%);
+    box-sizing: border-box;
+    padding: 10%;
+    /* start 100% off the right side of screen */
+    /*transform: translate(100%, 0);*/
 }
 .search-pane.show {
     transform: translate(0, 0);
+}
+
+.search-box {
+    display: flex;
+    border-bottom: solid 2px black;
+}
+.search-box * {
+    font-size: 30px;
+}
+.search-input {
+    background: none;
+    border: none;
+    flex-grow: 1;
+    padding: 20px;
+    /*font-size: 30px;*/
+    /*text-transform: uppercase;*/
+}
+.search-input:focus {
+    outline: none;
+}
+.search-input::placeholder {
+    color: black;
+}
+.search-submit {
+    background: none;
 }
 
 #playingStatus, .search {
