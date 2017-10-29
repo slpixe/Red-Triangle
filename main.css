@@ -1,9 +1,11 @@
 :root {
+    --white: #ffffff;
     --black: #000000;
     --gray: #333333;
     --pink: #FF358B;
     --blue: #01B0F0;
     --green: #AEEE00;
+    --yellow: #fffd38;
 }
 
 html, body {
@@ -57,15 +59,13 @@ iframe {
 }
 
 .search-pane {
-    /* when slid out, occupy 90% of the right */
     position: absolute;
     top: 0;
     bottom: 0;
     right: 0;
-    left: 10%;
+    left: 0;
     transition: transform 0.5s;
-    /*background-color: rgba(255, 255, 255, 1);*/
-    background: linear-gradient(to right, rgba(255,48,25,0) 0%,rgba(250,44,23,1) 50%,rgba(207,4,4,1) 100%);
+    background-color: var(--yellow);
     box-sizing: border-box;
     padding: 10%;
     /* start 100% off the right side of screen */
@@ -100,6 +100,22 @@ iframe {
     background: none;
 }
 
+.search-results {
+    padding: 0;
+    list-style-type: none;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.search-results li {
+    /*display: inline-flex;*/
+    margin: 10px;
+}
+
+.search-results img {
+    display: flex;
+}
+
 #playingStatus, .search {
     color: var(--pink);
     font-size: 20px;
@@ -123,7 +139,7 @@ input[type=range] {
 }
 input[type=range]::-webkit-slider-runnable-track {
     height: 10px;
-    background: rgb(255,255,255);
+    background-color: var(--white);
     border: none;
     border-radius: 5px;
 }

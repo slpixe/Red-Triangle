@@ -145,7 +145,7 @@ function hideToolboxCountdown () {
 function userInactive () {
   console.log('userInactive');
   hideToolbox();
-  hideSearch();
+  searchHide();
   userActive = false;
 }
 
@@ -159,12 +159,12 @@ function hideToolbox () {
   document.querySelector('.tools').classList.remove('show');
 }
 
-function showSearch () {
+function searchShow () {
   console.log('showing search');
   document.querySelector('.search-pane').classList.add('show');
 }
 
-function hideSearch () {
+function searchHide () {
   console.log('hiding search');
   document.querySelector('.search-pane').classList.remove('show');
 }
@@ -205,4 +205,4 @@ function handleMouseMove () {
 document.onmousemove = handleMouseMove;
 
 elPlayingStatus.addEventListener('click', togglePause);
-elOpenSearch.addEventListener('click', showSearch);
+elOpenSearch.addEventListener('click', searchShow);
