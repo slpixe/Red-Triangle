@@ -13,12 +13,17 @@ var userActive = false;
 var userActiveTimer = null;
 var sliderInUse = false;
 var DEBUG = true;
+var url = new URL(window.location);
+var youtubeKey = url.searchParams.get("API_KEY");
+
+var youtubeApiUrl = 'https://www.googleapis.com/youtube/v3/';
 
 //config values
 var VOLUME = 0; //percent
 var INTERVAL_USER_ACTIVE = 3000;
 var INTERVAL_SLIDER = 50; // in ms
-var DEBUG_TIMER = 5000;
+// var DEBUG_TIMER = 5000;
+var DEBUG_TIMER = 30000;
 
 //passeed through values (E.g. get parameters from url
 // www.mysite.com/my_app.html?Use_Id=abc
@@ -32,6 +37,15 @@ for (var i = 0, max = query.length; i < max; i++) {
   GET[decodeURIComponent(param[0])] = decodeURIComponent(param[1] || "");
 }
 
+/*========TEMPLATES==========*/
+
+const SearchItem = ({title, videoId, thumbnail}) => `
+  <li>
+    <img src="${thumbnail}" alt="" />
+    <strong>${title}</strong>
+  </li>
+`;
+
 /*========FUNCTIONS==========*/
 
 function stopVideo () {
@@ -39,7 +53,7 @@ function stopVideo () {
 }
 
 function togglePause () {
-  if(state == YT.PlayerState.PLAYING) {
+  if (state == YT.PlayerState.PLAYING) {
     player.pauseVideo();
     // elPause
   } else {
@@ -182,9 +196,36 @@ function debugInfo () {
   console.log("INTERVAL_SLIDER: " + INTERVAL_SLIDER);
 }
 
+function searchForBacon () {
+  fetch(youtubeApiUrl + 'search?key=' + youtubeKey + '&type=video&part=snippet&q=bacon')
+    .then(resp => resp.json())
+    .then((resp) => {
+      console.log(resp.pageInfo);
+
+      resp.items.map(x => {
+        console.log(x);
+        const item = SearchItem({
+          title: x.snippet.title,
+          videoId: x.id.videoId,
+          thumbnail: x.snippet.thumbnails.high.url
+        });
+        document.querySelector('.search-results').innerHTML += item;
+      });
+    });
+
+  // document.querySelector('.search-results').innerHTML = SearchItem({
+  //   title: 'tests',
+  //   videoId: '#abc123',
+  //   thumbnail: 'http://placehold.it/200x200.jpg'
+  // });
+
+}
+
+searchForBacon();
+
 /*=======Events========*/
 
-if(DEBUG){
+if (DEBUG) {
   setInterval(debugInfo, DEBUG_TIMER);
 }
 
