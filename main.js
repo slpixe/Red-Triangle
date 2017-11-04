@@ -212,13 +212,6 @@ function searchForBacon () {
         document.querySelector('.search-results').innerHTML += item;
       });
     });
-
-  // document.querySelector('.search-results').innerHTML = SearchItem({
-  //   title: 'tests',
-  //   videoId: '#abc123',
-  //   thumbnail: 'http://placehold.it/200x200.jpg'
-  // });
-
 }
 
 searchForBacon();

@@ -28,7 +28,7 @@ iframe {
 
 .tools {
     display: flex;
-    position: absolute;
+    position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
@@ -59,7 +59,7 @@ iframe {
 }
 
 .search-pane {
-    position: absolute;
+    position: fixed;
     top: 0;
     bottom: 0;
     right: 0;
@@ -68,8 +68,9 @@ iframe {
     background-color: var(--yellow);
     box-sizing: border-box;
     padding: 10%;
+    overflow-y: scroll;
     /* start 100% off the right side of screen */
-    /*transform: translate(100%, 0);*/
+    transform: translate(100%, 0);
 }
 .search-pane.show {
     transform: translate(0, 0);
