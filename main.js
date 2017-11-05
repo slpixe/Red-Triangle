@@ -1,6 +1,6 @@
 "use strict";
 
-console.clear();
+// console.clear();
 
 /* ============= Global Variables ============= */
 var state = null;
@@ -8,13 +8,19 @@ var player = null;
 var slider = document.getElementById("seek");
 var elPlayingStatus = document.getElementById("playingStatus");
 var elOpenSearch = document.querySelector('.search');
+var elSearchPane = document.querySelector('.search-pane');
+var elSearchInput = document.querySelector('.search-input');
+var elSearchSubmitBtn = document.querySelector('.search-submit');
 var videoDuration = null; //total video length seconds
 var userActive = false;
 var userActiveTimer = null;
 var sliderInUse = false;
 var DEBUG = true;
+var lastKeystroke = null;
+var nextPageToken = null;
+var isSearching = null;
 var url = new URL(window.location);
-var youtubeKey = url.searchParams.get("API_KEY");
+var API_KEY_YOUTUBE = url.searchParams.get("API_KEY");
 
 var youtubeApiUrl = 'https://www.googleapis.com/youtube/v3/';
 
@@ -23,7 +29,9 @@ var VOLUME = 0; //percent
 var INTERVAL_USER_ACTIVE = 3000;
 var INTERVAL_SLIDER = 50; // in ms
 // var DEBUG_TIMER = 5000;
-var DEBUG_TIMER = 30000;
+var DEBUG_TIMER = 60000;
+var SCROLL_TRIGGER = 300;  // in pixels, before hitting the bottom
+var SEARCH_DELAY = 1000;  // in milliseconds
 
 //passeed through values (E.g. get parameters from url
 // www.mysite.com/my_app.html?Use_Id=abc
@@ -153,20 +161,18 @@ function updateSlider () {
 function hideToolboxCountdown () {
   clearTimeout(userActiveTimer);
   userActiveTimer = setTimeout(userInactive, INTERVAL_USER_ACTIVE);
-  // 1000 milisec = 1 sec
 }
 
 function userInactive () {
-  console.log('userInactive');
+  userActive = false;
+  if (DEBUG)
+    console.log('userInactive');
   hideToolbox();
   searchHide();
-  userActive = false;
 }
 
 function showToolbox () {
-  if (!userActive) {
-    document.querySelector('.tools').classList.add('show');
-  }
+  document.querySelector('.tools').classList.add('show');
 }
 
 function hideToolbox () {
@@ -174,12 +180,22 @@ function hideToolbox () {
 }
 
 function searchShow () {
-  console.log('showing search');
+  if (DEBUG)
+    console.log('showing search');
   document.querySelector('.search-pane').classList.add('show');
 }
 
+function onSearchScroll (el) {
+  if (el.scrollTop + el.clientHeight + SCROLL_TRIGGER >= el.scrollHeight) {
+    if (DEBUG)
+      console.log('do search based on scrolling (no delay and nextPage)');
+    search(true, true);
+  }
+}
+
 function searchHide () {
-  console.log('hiding search');
+  if (DEBUG)
+    console.log('hiding search');
   document.querySelector('.search-pane').classList.remove('show');
 }
 
@@ -196,14 +212,60 @@ function debugInfo () {
   console.log("INTERVAL_SLIDER: " + INTERVAL_SLIDER);
 }
 
-function searchForBacon () {
-  fetch(youtubeApiUrl + 'search?key=' + youtubeKey + '&type=video&part=snippet&q=bacon')
-    .then(resp => resp.json())
-    .then((resp) => {
-      console.log(resp.pageInfo);
+function searchInputUpdated (e) {
+  if (e.key === 'Enter') {
+    search(true)
+  }
 
-      resp.items.map(x => {
-        console.log(x);
+  var date = new Date();
+  lastKeystroke = date.getTime();
+  setTimeout(search, SEARCH_DELAY);
+}
+
+function search (noDelay, nextPage) {
+  //quit out if theres no search value
+  if (elSearchInput.value.length === 0) return;
+
+  //if called by keyup check that longer than the delay has passed, otherwise cancel out
+  var date = new Date();
+  if (!noDelay && date.getTime() - lastKeystroke < SEARCH_DELAY)
+    return;
+
+  //if already searching (e.g. got called again because rapid scroll hits then cancel out
+  if (isSearching)
+    return;
+
+  if (DEBUG)
+    console.log('noDelay = ' + noDelay);
+
+  if (DEBUG)
+    console.log('nextPage = ' + nextPage);
+  fetchSearchFromYoutube(elSearchInput.value, nextPage);
+}
+
+function fetchSearchFromYoutube (query, nextPage) {
+  var encodedQuery = encodeURIComponent(query);
+
+  var url = youtubeApiUrl + 'search?q=' + encodedQuery + '&type=video&part=snippet&maxResults=10&key=' + API_KEY_YOUTUBE;
+
+  if (nextPage && nextPageToken)
+    url += '&pageToken=' + nextPageToken;
+
+  if (DEBUG)
+    console.log(url);
+
+  isSearching = true;
+
+  fetch(url)
+    .then(response => response.json())
+    .then((response) => {
+      if (DEBUG) {
+        console.log(response);
+      }
+
+      nextPageToken = response.nextPageToken;
+
+      response.items.map(x => {
         const item = SearchItem({
           title: x.snippet.title,
           videoId: x.id.videoId,
@@ -211,10 +273,10 @@ function searchForBacon () {
         });
         document.querySelector('.search-results').innerHTML += item;
       });
+
+      isSearching = false;
     });
 }
-
-searchForBacon();
 
 /*=======Events========*/
 
@@ -230,13 +292,20 @@ function onYouTubeIframeAPIReady () {
   setInterval(updateSlider, INTERVAL_SLIDER);
 }
 
-function handleMouseMove () {
+function handleUserActive () {
+  userActive = true;
   showToolbox();
   hideToolboxCountdown();
-  userActive = true;
 }
 
-document.onmousemove = handleMouseMove;
+document.onmousemove = handleUserActive;
+// not working for some reason
+// document.onscroll = handleUserActive;
 
 elPlayingStatus.addEventListener('click', togglePause);
 elOpenSearch.addEventListener('click', searchShow);
+elSearchInput.addEventListener('keyup', function (e) { searchInputUpdated(e); });
+elSearchSubmitBtn.addEventListener('click', function () {search(true)});
+
+//not working for some reason
+// elSearchPane.addEventListener('scroll', onSearchScroll(this));
