@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>RedTriangle</title>
     <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css">
 </head>
 <body>
 
@@ -24,12 +25,24 @@
         <button class="search">
             <i class="fa fa-search" aria-hidden="true"></i>
         </button>
+    </div>
 
+    <div class="search-pane" onscroll="onSearchScroll(this)">
+        <div class="search-box">
+            <input type="search" placeholder="Search..." class="search-input">
+            <button class="button-reset search-submit">
+                <i class="fa fa-search" aria-hidden="true"></i>
+            </button>
+        </div>
+
+        <ul class="search-results">
+
+        </ul>
     </div>
 
 </div>
 
-<script async src="https://use.fontawesome.com/44cede83de.js"></script>
+<!--<script async src="https://use.fontawesome.com/44cede83de.js"></script>-->
 <script type="text/javascript" src="https://www.youtube.com/iframe_api" async></script>
 <script src="main.js" defer></script>
 
