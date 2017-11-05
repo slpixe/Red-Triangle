@@ -5,12 +5,6 @@
 /* ============= Global Variables ============= */
 var state = null;
 var player = null;
-var slider = document.getElementById("seek");
-var elPlayingStatus = document.getElementById("playingStatus");
-var elOpenSearch = document.querySelector('.search');
-var elSearchPane = document.querySelector('.search-pane');
-var elSearchInput = document.querySelector('.search-input');
-var elSearchSubmitBtn = document.querySelector('.search-submit');
 var videoDuration = null; //total video length seconds
 var userActive = false;
 var userActiveTimer = null;
@@ -23,6 +17,15 @@ var url = new URL(window.location);
 var API_KEY_YOUTUBE = url.searchParams.get("API_KEY");
 
 var youtubeApiUrl = 'https://www.googleapis.com/youtube/v3/';
+
+//Elements
+var slider = document.getElementById("seek");
+var elPlayingStatus = document.getElementById("playingStatus");
+var elOpenSearch = document.querySelector('.search');
+var elSearchPane = document.querySelector('.search-pane');
+var elSearchInput = document.querySelector('.search-input');
+var elSearchSubmitBtn = document.querySelector('.search-submit');
+var elSearchResults = document.querySelector('.search-results');
 
 //config values
 var VOLUME = 0; //percent
@@ -48,7 +51,7 @@ for (var i = 0, max = query.length; i < max; i++) {
 /*========TEMPLATES==========*/
 
 const SearchItem = ({title, videoId, thumbnail}) => `
-  <li>
+  <li class="search-result-item" data-videoid="${videoId}">
     <img src="${thumbnail}" alt="" />
     <strong>${title}</strong>
   </li>
@@ -155,7 +158,9 @@ function updateSlider () {
 
   if (state != YT.PlayerState.PLAYING) return;
 
-  slider.value = Math.ceil(player.getCurrentTime());
+  try {
+    slider.value = Math.ceil(player.getCurrentTime());
+  } catch (e) {}
 }
 
 function hideToolboxCountdown () {
@@ -298,6 +303,13 @@ function handleUserActive () {
   hideToolboxCountdown();
 }
 
+function handleSearchItemResultClick (e) {
+  if(e.target && e.target.parentNode.className === 'search-result-item')
+    if(e.target.parentNode.dataset.videoid)
+      loadVideo(e.target.parentNode.dataset.videoid);
+      searchHide();
+}
+
 document.onmousemove = handleUserActive;
 // not working for some reason
 // document.onscroll = handleUserActive;
@@ -306,6 +318,7 @@ elPlayingStatus.addEventListener('click', togglePause);
 elOpenSearch.addEventListener('click', searchShow);
 elSearchInput.addEventListener('keyup', function (e) { searchInputUpdated(e); });
 elSearchSubmitBtn.addEventListener('click', function () {search(true)});
+elSearchResults.addEventListener('click', function (e) { handleSearchItemResultClick(e); });
 
 //not working for some reason
 // elSearchPane.addEventListener('scroll', onSearchScroll(this));
