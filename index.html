@@ -28,8 +28,12 @@
     </div>
 
     <div class="search-pane" onscroll="onSearchScroll(this)">
+        <div class="search-close">
+            <i class="fa fa-times"></i>
+        </div>
+
         <div class="search-box">
-            <input type="search" placeholder="Search..." class="search-input">
+            <input type="search" incremental="incremental" placeholder="Search..." class="search-input">
             <button class="button-reset search-submit">
                 <i class="fa fa-search" aria-hidden="true"></i>
             </button>

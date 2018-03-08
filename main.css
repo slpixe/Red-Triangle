@@ -140,6 +140,10 @@ input[type=range]:focus {
     max-width: 100%;
 }
 
+.search-close {
+    font-size: 50px;
+}
+
 #playingStatus, .search {
     color: var(--pink);
     font-size: 20px;

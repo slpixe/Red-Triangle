@@ -13,6 +13,7 @@ var DEBUG = true;
 var lastKeystroke = null;
 var nextPageToken = null;
 var isSearching = null;
+var searchString = null;
 var url = new URL(window.location);
 var API_KEY_YOUTUBE = url.searchParams.get("API_KEY");
 
@@ -21,11 +22,12 @@ var youtubeApiUrl = 'https://www.googleapis.com/youtube/v3/';
 //Elements
 var slider = document.getElementById("seek");
 var elPlayingStatus = document.getElementById("playingStatus");
-var elOpenSearch = document.querySelector('.search');
+var elSearchOpen = document.querySelector('.search');
 var elSearchPane = document.querySelector('.search-pane');
 var elSearchInput = document.querySelector('.search-input');
 var elSearchSubmitBtn = document.querySelector('.search-submit');
 var elSearchResults = document.querySelector('.search-results');
+var elSearchClose = document.querySelector('.search-close');
 
 //config values
 var VOLUME = 0; //percent
@@ -173,7 +175,7 @@ function userInactive () {
   if (DEBUG)
     console.log('userInactive');
   hideToolbox();
-  searchHide();
+  // searchHide();
 }
 
 function showToolbox () {
@@ -218,6 +220,13 @@ function debugInfo () {
 }
 
 function searchInputUpdated (e) {
+  //if search is not different e.g. select all, move cursor - do nothing
+  if( elSearchInput.value === searchString ) return;
+
+  clearSearchResults();
+  searchString = elSearchInput.value
+
+
   if (e.key === 'Enter') {
     search(true)
   }
@@ -225,6 +234,10 @@ function searchInputUpdated (e) {
   var date = new Date();
   lastKeystroke = date.getTime();
   setTimeout(search, SEARCH_DELAY);
+}
+
+function clearSearchResults() {
+  document.querySelector('.search-results').innerHTML = '';
 }
 
 function search (noDelay, nextPage) {
@@ -315,8 +328,10 @@ document.onmousemove = handleUserActive;
 // document.onscroll = handleUserActive;
 
 elPlayingStatus.addEventListener('click', togglePause);
-elOpenSearch.addEventListener('click', searchShow);
+elSearchOpen.addEventListener('click', searchShow);
+elSearchClose.addEventListener('click', searchHide);
 elSearchInput.addEventListener('keyup', function (e) { searchInputUpdated(e); });
+elSearchInput.addEventListener('search', function (e) { searchInputUpdated(e); });
 elSearchSubmitBtn.addEventListener('click', function () {search(true)});
 elSearchResults.addEventListener('click', function (e) { handleSearchItemResultClick(e); });
 
