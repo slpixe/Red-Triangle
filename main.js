@@ -9,7 +9,7 @@ var videoDuration = null; //total video length seconds
 var userActive = false;
 var userActiveTimer = null;
 var sliderInUse = false;
-var DEBUG = true;
+var DEBUG = false;
 var lastKeystroke = null;
 var nextPageToken = null;
 var isSearching = null;
@@ -190,6 +190,7 @@ function searchShow () {
   if (DEBUG)
     console.log('showing search');
   document.querySelector('.search-pane').classList.add('show');
+  elSearchInput.focus();
 }
 
 function onSearchScroll (el) {
