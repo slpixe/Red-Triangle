@@ -2,7 +2,7 @@
 
 ## Youtube alternative interface
 
-https://slpixe.github.io/red-triangle/index.html?API_KEY={YOUR_KEY}
+https://slpixe.github.io/Red-Triangle/?API_KEY={YOUR_KEY}
 
 Replace {YOUR_KEY} with your Youtube v3 API key to be able to perform searches
 
