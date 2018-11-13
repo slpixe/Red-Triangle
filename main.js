@@ -220,7 +220,7 @@ function debugInfo () {
   console.log("INTERVAL_SLIDER: " + INTERVAL_SLIDER);
 }
 
-function searchInputUpdated (e) {
+function searchInputUpdated (e, force = false) {
   //if search is not different e.g. select all, move cursor - do nothing
   if( elSearchInput.value === searchString ) return;
 
@@ -228,7 +228,7 @@ function searchInputUpdated (e) {
   searchString = elSearchInput.value
 
 
-  if (e.key === 'Enter') {
+  if ((e && e.key === 'Enter') || force) {
     search(true)
   }
 
@@ -338,3 +338,122 @@ elSearchResults.addEventListener('click', function (e) { handleSearchItemResultC
 
 //not working for some reason
 // elSearchPane.addEventListener('scroll', onSearchScroll(this));
+
+
+// https://github.com/Daniel-Hug/speech-input
+/*global webkitSpeechRecognition */
+(function() {
+	'use strict';
+
+	// check for support (webkit only)
+	if (!('webkitSpeechRecognition' in window)) return;
+
+	var talkMsg = 'Speak now';
+
+	function capitalize(str) {
+		return str.charAt(0).toUpperCase() + str.slice(1);
+	}
+
+  var inputEl = document.querySelector('.speech-input');
+  console.log('inputEl', inputEl);
+  
+  var micBtn = document.querySelector('.speech-btn');
+  console.log('micBtn', micBtn);
+
+    // setup recognition
+		var prefix = '';
+		var isSentence;
+		var recognizing = false;
+		var timeout;
+		var oldPlaceholder = null;
+		var recognition = new webkitSpeechRecognition();
+		recognition.continuous = true;
+		recognition.interimResults = true;
+
+		// if lang attribute is set on field use that
+		// (defaults to use the lang of the root element)
+		if (inputEl.lang) recognition.lang = inputEl.lang;
+
+		function restartTimer() {
+			timeout = setTimeout(function() {
+				recognition.stop();
+			}, SEARCH_DELAY);
+		}
+
+		recognition.onstart = function() {
+			oldPlaceholder = inputEl.placeholder;
+			inputEl.placeholder = inputEl.dataset.ready || talkMsg;
+			recognizing = true;
+			micBtn.classList.add('listening');
+			restartTimer();
+		};
+
+		recognition.onend = function() {
+			recognizing = false;
+			clearTimeout(timeout);
+			micBtn.classList.remove('listening');
+			if (oldPlaceholder !== null) inputEl.placeholder = oldPlaceholder;
+
+			searchInputUpdated(null, true);
+		};
+
+		recognition.onresult = function(event) {
+			clearTimeout(timeout);
+
+			// get SpeechRecognitionResultList object
+			var resultList = event.results;
+
+			// go through each SpeechRecognitionResult object in the list
+			var finalTranscript = '';
+			var interimTranscript = '';
+			for (var i = event.resultIndex; i < resultList.length; ++i) {
+				var result = resultList[i];
+
+				// get this result's first SpeechRecognitionAlternative object
+				var firstAlternative = result[0];
+
+				if (result.isFinal) {
+					finalTranscript = firstAlternative.transcript;
+				} else {
+					interimTranscript += firstAlternative.transcript;
+				}
+			}
+
+			// capitalize transcript if start of new sentence
+			var transcript = finalTranscript || interimTranscript;
+			transcript = !prefix || isSentence ? capitalize(transcript) : transcript;
+
+			// append transcript to cached input value
+			inputEl.value = prefix + transcript;
+
+			// set cursur and scroll to end
+			inputEl.focus();
+			if (inputEl.tagName === 'INPUT') {
+				inputEl.scrollLeft = inputEl.scrollWidth;
+			} else {
+				inputEl.scrollTop = inputEl.scrollHeight;
+			}
+
+			restartTimer();
+		};
+
+		micBtn.addEventListener('click', function(event) {
+			event.preventDefault();
+
+			// stop and exit if already going
+			if (recognizing) {
+				recognition.stop();
+				return;
+			}
+
+			// Cache current input value which the new transcript will be appended to
+			var endsWithWhitespace = inputEl.value.slice(-1).match(/\s/);
+			prefix = !inputEl.value || endsWithWhitespace ? inputEl.value : inputEl.value + ' ';
+
+			// check if value ends with a sentence
+			isSentence = prefix.trim().slice(-1).match(/[\.\?\!]/);
+
+			// restart recognition
+			recognition.start();
+		}, false);
+})();
