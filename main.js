@@ -30,7 +30,7 @@ var elSearchResults = document.querySelector('.search-results');
 var elSearchClose = document.querySelector('.search-close');
 
 //config values
-var VOLUME = 0; //percent
+var VOLUME = 100; //percent
 var INTERVAL_USER_ACTIVE = 3000;
 var INTERVAL_SLIDER = 50; // in ms
 // var DEBUG_TIMER = 5000;
