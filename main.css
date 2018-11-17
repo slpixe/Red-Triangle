@@ -121,6 +121,12 @@ input[type=range]:focus {
     background: none;
 }
 
+.speech-btn {
+    display: none;
+}
+.speechrecognition .speech-btn {
+    display: block;
+}
 .speech-btn.listening {
     color: var(--green);
 }
