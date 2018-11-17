@@ -1,5 +1,9 @@
 "use strict";
 
+/*! modernizr 3.6.0 (Custom Build) | MIT *
+ * https://modernizr.com/download/?-speechrecognition-setclasses !*/
+ !function(e,n,t){function r(e,n){return typeof e===n}function o(){var e,n,t,o,i,s,a;for(var l in C)if(C.hasOwnProperty(l)){if(e=[],n=C[l],n.name&&(e.push(n.name.toLowerCase()),n.options&&n.options.aliases&&n.options.aliases.length))for(t=0;t<n.options.aliases.length;t++)e.push(n.options.aliases[t].toLowerCase());for(o=r(n.fn,"function")?n.fn():n.fn,i=0;i<e.length;i++)s=e[i],a=s.split("."),1===a.length?Modernizr[a[0]]=o:(!Modernizr[a[0]]||Modernizr[a[0]]instanceof Boolean||(Modernizr[a[0]]=new Boolean(Modernizr[a[0]])),Modernizr[a[0]][a[1]]=o),h.push((o?"":"no-")+a.join("-"))}}function i(e){var n=_.className,t=Modernizr._config.classPrefix||"";if(w&&(n=n.baseVal),Modernizr._config.enableJSClass){var r=new RegExp("(^|\\s)"+t+"no-js(\\s|$)");n=n.replace(r,"$1"+t+"js$2")}Modernizr._config.enableClasses&&(n+=" "+t+e.join(" "+t),w?_.className.baseVal=n:_.className=n)}function s(e){return e.replace(/([a-z])-([a-z])/g,function(e,n,t){return n+t.toUpperCase()}).replace(/^-/,"")}function a(e,n){return!!~(""+e).indexOf(n)}function l(){return"function"!=typeof n.createElement?n.createElement(arguments[0]):w?n.createElementNS.call(n,"http://www.w3.org/2000/svg",arguments[0]):n.createElement.apply(n,arguments)}function f(e,n){return function(){return e.apply(n,arguments)}}function u(e,n,t){var o;for(var i in e)if(e[i]in n)return t===!1?e[i]:(o=n[e[i]],r(o,"function")?f(o,t||n):o);return!1}function p(e){return e.replace(/([A-Z])/g,function(e,n){return"-"+n.toLowerCase()}).replace(/^ms-/,"-ms-")}function c(n,t,r){var o;if("getComputedStyle"in e){o=getComputedStyle.call(e,n,t);var i=e.console;if(null!==o)r&&(o=o.getPropertyValue(r));else if(i){var s=i.error?"error":"log";i[s].call(i,"getComputedStyle returning null, its possible modernizr test results are inaccurate")}}else o=!t&&n.currentStyle&&n.currentStyle[r];return o}function d(){var e=n.body;return e||(e=l(w?"svg":"body"),e.fake=!0),e}function m(e,t,r,o){var i,s,a,f,u="modernizr",p=l("div"),c=d();if(parseInt(r,10))for(;r--;)a=l("div"),a.id=o?o[r]:u+(r+1),p.appendChild(a);return i=l("style"),i.type="text/css",i.id="s"+u,(c.fake?c:p).appendChild(i),c.appendChild(p),i.styleSheet?i.styleSheet.cssText=e:i.appendChild(n.createTextNode(e)),p.id=u,c.fake&&(c.style.background="",c.style.overflow="hidden",f=_.style.overflow,_.style.overflow="hidden",_.appendChild(c)),s=t(p,e),c.fake?(c.parentNode.removeChild(c),_.style.overflow=f,_.offsetHeight):p.parentNode.removeChild(p),!!s}function v(n,r){var o=n.length;if("CSS"in e&&"supports"in e.CSS){for(;o--;)if(e.CSS.supports(p(n[o]),r))return!0;return!1}if("CSSSupportsRule"in e){for(var i=[];o--;)i.push("("+p(n[o])+":"+r+")");return i=i.join(" or "),m("@supports ("+i+") { #modernizr { position: absolute; } }",function(e){return"absolute"==c(e,null,"position")})}return t}function g(e,n,o,i){function f(){p&&(delete N.style,delete N.modElem)}if(i=r(i,"undefined")?!1:i,!r(o,"undefined")){var u=v(e,o);if(!r(u,"undefined"))return u}for(var p,c,d,m,g,y=["modernizr","tspan","samp"];!N.style&&y.length;)p=!0,N.modElem=l(y.shift()),N.style=N.modElem.style;for(d=e.length,c=0;d>c;c++)if(m=e[c],g=N.style[m],a(m,"-")&&(m=s(m)),N.style[m]!==t){if(i||r(o,"undefined"))return f(),"pfx"==n?m:!0;try{N.style[m]=o}catch(h){}if(N.style[m]!=g)return f(),"pfx"==n?m:!0}return f(),!1}function y(e,n,t,o,i){var s=e.charAt(0).toUpperCase()+e.slice(1),a=(e+" "+b.join(s+" ")+s).split(" ");return r(n,"string")||r(n,"undefined")?g(a,n,o,i):(a=(e+" "+z.join(s+" ")+s).split(" "),u(a,n,t))}var h=[],C=[],S={_version:"3.6.0",_config:{classPrefix:"",enableClasses:!0,enableJSClass:!0,usePrefixes:!0},_q:[],on:function(e,n){var t=this;setTimeout(function(){n(t[e])},0)},addTest:function(e,n,t){C.push({name:e,fn:n,options:t})},addAsyncTest:function(e){C.push({name:null,fn:e})}},Modernizr=function(){};Modernizr.prototype=S,Modernizr=new Modernizr;var _=n.documentElement,w="svg"===_.nodeName.toLowerCase(),x="Moz O ms Webkit",b=S._config.usePrefixes?x.split(" "):[];S._cssomPrefixes=b;var E=function(n){var r,o=prefixes.length,i=e.CSSRule;if("undefined"==typeof i)return t;if(!n)return!1;if(n=n.replace(/^@/,""),r=n.replace(/-/g,"_").toUpperCase()+"_RULE",r in i)return"@"+n;for(var s=0;o>s;s++){var a=prefixes[s],l=a.toUpperCase()+"_"+r;if(l in i)return"@-"+a.toLowerCase()+"-"+n}return!1};S.atRule=E;var z=S._config.usePrefixes?x.toLowerCase().split(" "):[];S._domPrefixes=z;var P={elem:l("modernizr")};Modernizr._q.push(function(){delete P.elem});var N={style:P.elem.style};Modernizr._q.unshift(function(){delete N.style}),S.testAllProps=y;var T=S.prefixed=function(e,n,t){return 0===e.indexOf("@")?E(e):(-1!=e.indexOf("-")&&(e=s(e)),n?y(e,n,t):y(e,"pfx"))};Modernizr.addTest("speechrecognition",!!T("SpeechRecognition",e)),o(),i(h),delete S.addTest,delete S.addAsyncTest;for(var j=0;j<Modernizr._q.length;j++)Modernizr._q[j]();e.Modernizr=Modernizr}(window,document);
+
 // console.clear();
 
 /* ============= Global Variables ============= */
@@ -220,7 +224,7 @@ function debugInfo () {
   console.log("INTERVAL_SLIDER: " + INTERVAL_SLIDER);
 }
 
-function searchInputUpdated (e) {
+function searchInputUpdated (e, force = false) {
   //if search is not different e.g. select all, move cursor - do nothing
   if( elSearchInput.value === searchString ) return;
 
@@ -228,7 +232,7 @@ function searchInputUpdated (e) {
   searchString = elSearchInput.value
 
 
-  if (e.key === 'Enter') {
+  if ((e && e.key === 'Enter') || force) {
     search(true)
   }
 
@@ -338,3 +342,132 @@ elSearchResults.addEventListener('click', function (e) { handleSearchItemResultC
 
 //not working for some reason
 // elSearchPane.addEventListener('scroll', onSearchScroll(this));
+
+function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+function debugMilliseconds() {
+  return Math.floor(Date.now() / 100).toString().substring(8);
+}
+
+// https://github.com/Daniel-Hug/speech-input
+/*global webkitSpeechRecognition */
+(function() {
+  var speechRecognition = window[Modernizr.prefixed('speechRecognition', window, false)];
+  
+  if (!speechRecognition) return;
+
+  var recognition = new speechRecognition;
+
+    // setup recognition
+    var prefix = '';
+    var talkMsg = 'Speak now';
+		var isSentence;
+		var recognizing = false;
+		var timeout;
+		var oldPlaceholder = null;
+    var inputEl = document.querySelector('.speech-input');
+    var micBtn = document.querySelector('.speech-btn');
+		recognition.continuous = true;
+		recognition.interimResults = true;
+
+		// if lang attribute is set on field use that
+		// (defaults to use the lang of the root element)
+		if (inputEl.lang) recognition.lang = inputEl.lang;
+
+		function restartTimer() {
+      if(DEBUG) {
+        console.log(debugMilliseconds(), 'speech - restartTimer');
+      }
+			timeout = setTimeout(function() {
+				recognition.stop();
+			}, SEARCH_DELAY);
+		}
+
+		recognition.onstart = function() {
+      if(DEBUG) {
+        console.log(debugMilliseconds(), 'speech - onStart');
+      }
+			oldPlaceholder = inputEl.placeholder;
+			inputEl.placeholder = inputEl.dataset.ready || talkMsg;
+			recognizing = true;
+			micBtn.classList.add('listening');
+			restartTimer();
+		};
+
+		recognition.onend = function() {
+      if(DEBUG) {
+        console.log(debugMilliseconds(), 'speech - onEnd');
+      }
+			recognizing = false;
+			clearTimeout(timeout);
+			micBtn.classList.remove('listening');
+			if (oldPlaceholder !== null) inputEl.placeholder = oldPlaceholder;
+
+			searchInputUpdated(null, true);
+    };
+
+		recognition.onresult = function(event) {
+      if(DEBUG) {
+        console.log(debugMilliseconds(), 'speech - onResult');
+      }
+			clearTimeout(timeout);
+
+			// get SpeechRecognitionResultList object
+			var resultList = event.results;
+
+			// go through each SpeechRecognitionResult object in the list
+			var finalTranscript = '';
+			var interimTranscript = '';
+			for (var i = event.resultIndex; i < resultList.length; ++i) {
+				var result = resultList[i];
+
+				// get this result's first SpeechRecognitionAlternative object
+				var firstAlternative = result[0];
+
+				if (result.isFinal) {
+					finalTranscript = firstAlternative.transcript;
+				} else {
+					interimTranscript += firstAlternative.transcript;
+				}
+			}
+
+			// capitalize transcript if start of new sentence
+			var transcript = finalTranscript || interimTranscript;
+			transcript = !prefix || isSentence ? capitalize(transcript) : transcript;
+
+			// append transcript to cached input value
+			inputEl.value = prefix + transcript;
+
+			// set cursur and scroll to end
+			inputEl.focus();
+			if (inputEl.tagName === 'INPUT') {
+				inputEl.scrollLeft = inputEl.scrollWidth;
+			} else {
+				inputEl.scrollTop = inputEl.scrollHeight;
+			}
+
+			restartTimer();
+		};
+
+		micBtn.addEventListener('click', function(event) {
+			event.preventDefault();
+
+			// stop and exit if already going
+			if (recognizing) {
+				recognition.stop();
+				return;
+			}
+
+			// Cache current input value which the new transcript will be appended to
+			var endsWithWhitespace = inputEl.value.slice(-1).match(/\s/);
+			prefix = !inputEl.value || endsWithWhitespace ? inputEl.value : inputEl.value + ' ';
+
+			// check if value ends with a sentence
+			isSentence = prefix.trim().slice(-1).match(/[\.\?\!]/);
+
+			// restart recognition
+			recognition.start();
+		}, false);
+})();

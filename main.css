@@ -121,6 +121,16 @@ input[type=range]:focus {
     background: none;
 }
 
+.speech-btn {
+    display: none;
+}
+.speechrecognition .speech-btn {
+    display: block;
+}
+.speech-btn.listening {
+    color: var(--green);
+}
+
 .search-results {
     padding: 0;
     list-style-type: none;
@@ -142,6 +152,11 @@ input[type=range]:focus {
 
 .search-close {
     font-size: 50px;
+    cursor: pointer;
+    display: inline-block;
+    position: absolute;
+    top: 20px;
+    right: 20px;
 }
 
 #playingStatus, .search {
