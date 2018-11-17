@@ -350,9 +350,11 @@ function capitalize(str) {
 // https://github.com/Daniel-Hug/speech-input
 /*global webkitSpeechRecognition */
 (function() {
-  var recognition = window[Modernizr.prefixed('speechRecognition', window, false)];
+  var speechRecognition = window[Modernizr.prefixed('speechRecognition', window, false)];
   
-  if (!recognition) return;
+  if (!speechRecognition) return;
+
+  var recognition = new speechRecognition;
 
     // setup recognition
     var prefix = '';
@@ -371,12 +373,14 @@ function capitalize(str) {
 		if (inputEl.lang) recognition.lang = inputEl.lang;
 
 		function restartTimer() {
+      console.log('speech - restartTimer');
 			timeout = setTimeout(function() {
 				recognition.stop();
 			}, SEARCH_DELAY);
 		}
 
 		recognition.onstart = function() {
+      console.log('speech - onStart');
 			oldPlaceholder = inputEl.placeholder;
 			inputEl.placeholder = inputEl.dataset.ready || talkMsg;
 			recognizing = true;
@@ -385,6 +389,7 @@ function capitalize(str) {
 		};
 
 		recognition.onend = function() {
+      console.log('speech - onEnd');
 			recognizing = false;
 			clearTimeout(timeout);
 			micBtn.classList.remove('listening');
@@ -394,6 +399,7 @@ function capitalize(str) {
 		};
 
 		recognition.onresult = function(event) {
+      console.log('speech - onResult');
 			clearTimeout(timeout);
 
 			// get SpeechRecognitionResultList object
