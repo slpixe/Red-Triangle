@@ -343,32 +343,26 @@ elSearchResults.addEventListener('click', function (e) { handleSearchItemResultC
 //not working for some reason
 // elSearchPane.addEventListener('scroll', onSearchScroll(this));
 
+function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
 
 // https://github.com/Daniel-Hug/speech-input
 /*global webkitSpeechRecognition */
 (function() {
-	// check for support (webkit only)
-	if (!('webkitSpeechRecognition' in window)) return;
-
-	var talkMsg = 'Speak now';
-
-	function capitalize(str) {
-		return str.charAt(0).toUpperCase() + str.slice(1);
-	}
-
-  var inputEl = document.querySelector('.speech-input');
-  console.log('inputEl', inputEl);
+  var recognition = window[Modernizr.prefixed('speechRecognition', window, false)];
   
-  var micBtn = document.querySelector('.speech-btn');
-  console.log('micBtn', micBtn);
+  if (!recognition) return;
 
     // setup recognition
-		var prefix = '';
+    var prefix = '';
+    var talkMsg = 'Speak now';
 		var isSentence;
 		var recognizing = false;
 		var timeout;
 		var oldPlaceholder = null;
-		var recognition = new webkitSpeechRecognition();
+    var inputEl = document.querySelector('.speech-input');
+    var micBtn = document.querySelector('.speech-btn');
 		recognition.continuous = true;
 		recognition.interimResults = true;
 
