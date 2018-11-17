@@ -86,7 +86,7 @@ function loadVideo (videoId) {
   player = new YT.Player("player", {
     videoId: videoId,
     playerVars: {
-      autoplay: 0,
+      autoplay: 1,
       controls: 0, //hide default controls from player
       disablekb: 1, //prevent keyboard controls e.g. space to pause
       modestbranding: 1, //not 100% sure
@@ -138,12 +138,6 @@ function onPlayerStateChange (event) {
       elPlayingStatus.classList.add('play');
       break;
   }
-
-  // if(state == YT.PlayerState.PLAYING) {
-  //   elPlayingStatus.classList.add('pause');
-  // } else if{
-  //   elPlayingStatus.className = "";
-  // }
 
 }
 
