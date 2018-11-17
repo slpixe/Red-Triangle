@@ -347,6 +347,10 @@ function capitalize(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
+function debugMilliseconds() {
+  return Math.floor(Date.now() / 100).toString().substring(8);
+}
+
 // https://github.com/Daniel-Hug/speech-input
 /*global webkitSpeechRecognition */
 (function() {
@@ -373,14 +377,18 @@ function capitalize(str) {
 		if (inputEl.lang) recognition.lang = inputEl.lang;
 
 		function restartTimer() {
-      console.log('speech - restartTimer');
+      if(DEBUG) {
+        console.log(debugMilliseconds(), 'speech - restartTimer');
+      }
 			timeout = setTimeout(function() {
 				recognition.stop();
 			}, SEARCH_DELAY);
 		}
 
 		recognition.onstart = function() {
-      console.log('speech - onStart');
+      if(DEBUG) {
+        console.log(debugMilliseconds(), 'speech - onStart');
+      }
 			oldPlaceholder = inputEl.placeholder;
 			inputEl.placeholder = inputEl.dataset.ready || talkMsg;
 			recognizing = true;
@@ -389,17 +397,21 @@ function capitalize(str) {
 		};
 
 		recognition.onend = function() {
-      console.log('speech - onEnd');
+      if(DEBUG) {
+        console.log(debugMilliseconds(), 'speech - onEnd');
+      }
 			recognizing = false;
 			clearTimeout(timeout);
 			micBtn.classList.remove('listening');
 			if (oldPlaceholder !== null) inputEl.placeholder = oldPlaceholder;
 
 			searchInputUpdated(null, true);
-		};
+    };
 
 		recognition.onresult = function(event) {
-      console.log('speech - onResult');
+      if(DEBUG) {
+        console.log(debugMilliseconds(), 'speech - onResult');
+      }
 			clearTimeout(timeout);
 
 			// get SpeechRecognitionResultList object
