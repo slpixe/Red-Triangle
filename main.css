@@ -146,6 +146,11 @@ input[type=range]:focus {
 
 .search-close {
     font-size: 50px;
+    cursor: pointer;
+    display: inline-block;
+    position: absolute;
+    top: 20px;
+    right: 20px;
 }
 
 #playingStatus, .search {
