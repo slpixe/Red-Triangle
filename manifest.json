@@ -13,5 +13,10 @@
             "type": "image/svg+xml",
             "sizes": "36x36 48x48 72x72 96x96 144x144 192x192 512x512"
         }
-    ]
+    ],
+    "start_url": "/",
+    "background_color": "#FFFFFF",
+    "display": "standalone",
+    "orientation": "landscape",
+    "theme_color": "#FFFFFF"
 }
