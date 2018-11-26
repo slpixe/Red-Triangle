@@ -59,7 +59,7 @@ input[type=range]:focus {
     padding-left: 20px;
     padding-right: 20px;
     box-sizing: border-box;
-    height: 60px;
+    height: calc(44px + 20px + 20px);
     padding-top: 20px;
     padding-bottom: 20px;
     background-color: var(--blue);
@@ -104,13 +104,13 @@ input[type=range]:focus {
     border-bottom: solid 2px black;
 }
 .search-box * {
-    font-size: 30px;
+    font-size: 44px;
 }
 .search-input {
     background: none;
     border: none;
-    flex-grow: 1;
     padding: 20px;
+    width: 100%;
 }
 .search-input:focus {
     outline: none;
@@ -162,7 +162,7 @@ input[type=range]:focus {
 
 #playingStatus, .search {
     color: var(--pink);
-    font-size: 20px;
+    font-size: 44px;
 }
 
 #playingStatus > * {
