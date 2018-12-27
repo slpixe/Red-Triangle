@@ -2,9 +2,11 @@ var YOUTUBE_API_KEY ="AIzaSyD1FAU-dhvMVDsYucfSVEJnYQ7mzxkxMZs";
 var YOUTUBE_CLIENT_ID = "770186346406-vfarrg780dneqf2p9v55p3klopglm9qt.apps.googleusercontent.com";
 var CLIENT_SECRET = "cJNnCipM6dMiO55MQZk5Pp2M";
 var DISCOVERY_URL = 'https://www.googleapis.com/discovery/v1/apis/youtube/v3/rest';
+var YOUTUBE_API_URL = 'https://www.googleapis.com/youtube/v3/';
 
 var loginOutBtn = document.querySelector('#sign-in-or-out-button');
 var authStatusDiv = document.querySelector('#auth-status');
+var recommendationsBtn = document.querySelector('#recommendations-button');
 
 var GoogleAuth;
 var SCOPE = 'https://www.googleapis.com/auth/youtube.readonly';
@@ -37,6 +39,8 @@ function initClient() {
     // Call handleAuthClick function when user clicks on
     //      "Sign In/Authorize" button.
     loginOutBtn.onclick = () => handleAuthClick();
+
+    recommendationsBtn.onclick = () => handleRecommendationsClick();
   });
 }
 
@@ -48,6 +52,22 @@ function handleAuthClick() {
     // User is not signed in. Start Google auth flow.
     GoogleAuth.signIn();
   }
+}
+
+function handleRecommendationsClick() {
+  var parts = ['snippet', 'contentDetails'];
+  var partsEncoded = encodeURIComponent(parts.join(','));
+  var url = `${YOUTUBE_API_URL}activities?mine=true&part=${partsEncoded}&maxResults=10&key=${YOUTUBE_API_KEY}`;
+  if (DEBUG)
+    console.log(url);
+
+  gapi.client.request({
+    'path': url
+  })
+    .then(
+      response => console.log(response.result),
+      error => console.log('Error: ' + reason.result.error.message)
+    );
 }
 
 function revokeAccess() {
