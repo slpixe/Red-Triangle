@@ -57,7 +57,7 @@ function handleAuthClick() {
 function handleRecommendationsClick() {
   var parts = ['snippet', 'contentDetails'];
   var partsEncoded = encodeURIComponent(parts.join(','));
-  var url = `${YOUTUBE_API_URL}activities?mine=true&part=${partsEncoded}&maxResults=10&key=${YOUTUBE_API_KEY}`;
+  var url = `${YOUTUBE_API_URL}activities?mine=true&part=${partsEncoded}&maxResults=50&key=${YOUTUBE_API_KEY}`;
   if (DEBUG)
     console.log(url);
 
@@ -66,7 +66,7 @@ function handleRecommendationsClick() {
   })
     .then(
       response => console.log(response.result),
-      error => console.log('Error: ' + reason.result.error.message)
+      error => console.log('Error: ' + error.result.error.message)
     );
 }
 
