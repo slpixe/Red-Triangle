@@ -469,4 +469,3 @@ function debugMilliseconds() {
 			recognition.start();
 		}, false);
 })();
-
