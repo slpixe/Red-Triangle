@@ -8,6 +8,9 @@ var loginOutBtn = document.querySelector('#sign-in-or-out-button');
 var authStatusDiv = document.querySelector('#auth-status');
 var recommendationsBtn = document.querySelector('#recommendations-button');
 
+var recommendedRequestNextPageToken;
+var recommendedResults = [];
+
 var GoogleAuth;
 var SCOPE = 'https://www.googleapis.com/auth/youtube.readonly';
 function handleClientLoad() {
@@ -55,9 +58,14 @@ function handleAuthClick() {
 }
 
 function handleRecommendationsClick() {
-  var parts = ['snippet', 'contentDetails'];
+  var parts = ['snippet'];
   var partsEncoded = encodeURIComponent(parts.join(','));
-  var url = `${YOUTUBE_API_URL}activities?mine=true&part=${partsEncoded}&maxResults=50&key=${YOUTUBE_API_KEY}`;
+  var url = `${YOUTUBE_API_URL}activities?home=true&part=${partsEncoded}&maxResults=50&key=${YOUTUBE_API_KEY}`;
+
+  if (recommendedRequestNextPageToken) {
+    url += `&pageToken=${recommendedRequestNextPageToken}`;
+  }
+
   if (DEBUG)
     console.log(url);
 
@@ -65,7 +73,15 @@ function handleRecommendationsClick() {
     'path': url
   })
     .then(
-      response => console.log(response.result),
+      response => {
+        console.log('top-level-result', response.result);
+        // if (response.result.nextPageToken) recommendedRequestNextPageToken = 
+        
+        recommendedRequestNextPageToken = response.result.nextPageToken || undefined;
+
+        recommendedResults = recommendedResults.concat(response.result.items.filter(item => item.snippet.type === 'recommendation'))
+        console.log('recommendedResults', recommendedResults);
+      },
       error => console.log('Error: ' + error.result.error.message)
     );
 }
