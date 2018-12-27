@@ -34,13 +34,17 @@ var elSearchResults = document.querySelector('.search-results');
 var elSearchClose = document.querySelector('.search-close');
 
 //config values
-var VOLUME = 100; //percent
+var VOLUME = 0; //percent
 var INTERVAL_USER_ACTIVE = 3000;
 var INTERVAL_SLIDER = 50; // in ms
 // var DEBUG_TIMER = 5000;
 var DEBUG_TIMER = 60000;
 var SCROLL_TRIGGER = 300;  // in pixels, before hitting the bottom
 var SEARCH_DELAY = 1000;  // in milliseconds
+
+// google api
+var CLIENT_ID = "770186346406-vfarrg780dneqf2p9v55p3klopglm9qt.apps.googleusercontent.com";
+var CLIENT_SECRET = "cJNnCipM6dMiO55MQZk5Pp2M";
 
 //passeed through values (E.g. get parameters from url
 // www.mysite.com/my_app.html?Use_Id=abc
@@ -465,3 +469,4 @@ function debugMilliseconds() {
 			recognition.start();
 		}, false);
 })();
+

@@ -30,8 +30,11 @@
     </div>
 
     <div class="search-pane" onscroll="onSearchScroll(this)">
-        <div class="search-close">
-            <i class="fa fa-times"></i>
+        <div class="search-pane-tools">
+            <button id="sign-in-or-out-button" class="btn">SignIn/Signout</button>
+            <div class="search-close">
+                <i class="fa fa-times"></i>
+            </div>
         </div>
 
         <div class="search-box">
@@ -54,6 +57,10 @@
 <!--<script async src="https://use.fontawesome.com/44cede83de.js"></script>-->
 <script type="text/javascript" src="https://www.youtube.com/iframe_api" async></script>
 <script src="main.js" defer></script>
+<script src="youtubeAuth.js" defer></script>
+<script async defer src="https://apis.google.com/js/api.js" 
+        onload="this.onload=function(){};handleClientLoad()" 
+        onreadystatechange="if (this.readyState === 'complete') this.onload()"></script>
 
 </body>
 </html>

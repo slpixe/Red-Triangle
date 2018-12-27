@@ -99,6 +99,23 @@ input[type=range]:focus {
     transform: translate(0, 0);
 }
 
+.search-pane-tools {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    flex-grow: 0;
+    flex-shrink: 0;
+}
+
+.search-pane-tools .btn {
+    background: none;
+    border: 1px solid black;
+    padding: 4px 10px;
+    flex-grow: 0;
+    flex-shrink: 0;
+}
+
 .search-box {
     display: flex;
     border-bottom: solid 2px black;
@@ -155,9 +172,6 @@ input[type=range]:focus {
     font-size: 50px;
     cursor: pointer;
     display: inline-block;
-    position: absolute;
-    top: 20px;
-    right: 20px;
 }
 
 #playingStatus, .search {
